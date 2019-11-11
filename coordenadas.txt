@@ -1,0 +1,26 @@
+Torre de la vela	37.177277	-3.592177
+Jardín de los Adarves	37.176866	-3.591652
+Placeta de los Aljibes	37.177161	-3.590907
+Puerta del Vino	37.176709	-3.590700
+Patio de Machuca	37.177477	-3.590432
+Sala del Mexuar	37.177455	-3.590019
+Torre de Comares	37.177596	-3.589643
+El Peinador de la Reina	37.177680	-3.589219
+Palacios Nazaríes	37.177361	-3.589761
+Patio de Comares	37.177250	-3.589654
+Mirador de Daraxa	37.177314	-3.589241
+Patio de los Leones	37.177098	-3.589238
+Galería Fotográfica	37.176981	-3.589708
+Palacio de Carlos V	37.176853	-3.589960
+Museo Bellas Artes	37.176761	-3.589565
+Sala de los Reyes	37.177077	-3.588989
+Parroquia Santa María	37.176459	-3.589421
+Iglesia de Santa María	37.176419	-3.589182
+Museo Ángel Barrios	37.176237	-3.588852
+Torre de las Damas	37.177451	-3.588463
+Jardines del Partal	37.176447	-3.587803
+Jardines del Paraíso	37.176271	-3.587202
+Jardines del Generalife	37.176880	-3.585133
+Teatro del Generalife	37.176060	-3.584811
+Generalife	37.178035	-3.585519
+Biblioteca	37.175085	-3.582687
