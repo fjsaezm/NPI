@@ -15,20 +15,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+import kotlin.math.sqrt
+import android.util.Log
 
+
+private val TAG: String = MainActivity::class.java.simpleName
 
 class MainActivity : AppCompatActivity() {
 
     val PERMISSION_ID = 42
     lateinit var mFusedLocationClient: FusedLocationProviderClient
-    lateinit var db :MonumentsDB;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        db = MonumentsDB(this);
 
 
         getLastLocation()
@@ -46,6 +48,9 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         findViewById<TextView>(R.id.latTextView).text = location.latitude.toString()
                         findViewById<TextView>(R.id.lonTextView).text = location.longitude.toString()
+                        // Find nearest monument
+                        val nm = findMonuments(location.latitude,location.longitude)
+                        findViewById<TextView>(R.id.minDTextView).text = nm.name
                     }
 
                 }
@@ -63,9 +68,9 @@ class MainActivity : AppCompatActivity() {
     private fun requestNewLocationData() {
         var mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 10000
-        mLocationRequest.fastestInterval = 5000
-        mLocationRequest.numUpdates = 1
+        mLocationRequest.interval = 100
+        mLocationRequest.fastestInterval = 50
+        //mLocationRequest.numUpdates = 1
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mFusedLocationClient!!.requestLocationUpdates(
@@ -121,10 +126,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun findMonuments(locX : Double, locY : Double){
-        var monuments = db.queryAll();
-        for (item in monuments){
+    private fun findMonuments(locX : Double, locY : Double) : Monument {
 
+
+        //Auxiliar vars
+        val monuments : MutableList<Monument> = ArrayList()
+        val delimiter = "\t"
+
+        // Read text
+        try {
+
+            val file_name = "coordenadas.txt"
+            val string = application.assets.open(file_name).bufferedReader().use{
+                it.readText()
+            }
+            val splitted = string.split("\n")
+            for(line in splitted){
+                if(line.isNotEmpty()) {
+                    val sp = line.split(delimiter)
+                    monuments.add(Monument(sp[0], sp[1].toDouble(), sp[1].toDouble()))
+                }
+            }
+
+            val near : MutableList<Monument> = ArrayList()
+            for (item in monuments){
+                val dist = sqrt((locX - item.x)*(locX-item.x) + (locY - item.y)*(locY - item.y))
+                if (dist < 10000)
+                    near.add(item)
+            }
+            Log.d(TAG,file_name)
+            return near[0]
+
+        } catch (e:Exception){
+            Log.d(TAG, e.toString())
         }
+
+        return Monument("No monument",0.0,0.0)
     }
+
 }
