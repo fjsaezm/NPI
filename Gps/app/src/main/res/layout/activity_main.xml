@@ -25,4 +25,10 @@
         android:layout_height="wrap_content"
         android:text="Min Distance: " />
 
+    <Button
+        android:id="@+id/galBut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gallery" />
+
 </LinearLayout>
