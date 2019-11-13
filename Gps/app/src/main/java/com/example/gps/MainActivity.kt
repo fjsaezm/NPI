@@ -43,12 +43,13 @@ class MainActivity : AppCompatActivity() {
     //Vals
     val PERMISSION_ID = 42
     private val GALLERY = 1
-    private val SHARE   = 2
-    private val RESULT_LOAD_IMG = 1;
+    private val REQUEST_ENABLE_BT = 1
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     lateinit var bluetoothAdapter: BluetoothAdapter
 
-    //button: to delete
+    // Local vars
+    private var waitingGestureYN = false
+    
 
 
 
@@ -61,6 +62,9 @@ class MainActivity : AppCompatActivity() {
         //Activate location services
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        //Get location
+        getLastLocation()
+
         // get button. will be deleted
         val button = findViewById<Button>(R.id.galBut)
         button?.setOnClickListener {
@@ -68,19 +72,15 @@ class MainActivity : AppCompatActivity() {
             choosePhotoFromGallery()
 
         }
-
-
         //Activate bluetooth
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (bluetoothAdapter?.isEnabled == false) {
             val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            val REQUEST_ENABLE_BT = 1
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
         }
 
 
-        //Get location
-        getLastLocation()
+
     }
 
     private fun choosePhotoFromGallery() {
@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                     if (location == null) {
                         requestNewLocationData()
                     } else {
+                        requestNewLocationData()
                         findViewById<TextView>(R.id.latTextView).text = location.latitude.toString()
                         findViewById<TextView>(R.id.lonTextView).text = location.longitude.toString()
                         // Find nearest monument
@@ -139,14 +140,19 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        var mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 100
-        mLocationRequest.fastestInterval = 50
+        var mLocationRequest = LocationRequest.create().apply{
+
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 1000
+            fastestInterval = 500
+            smallestDisplacement = 1.0f
+        }
+
+
         //mLocationRequest.numUpdates = 1
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient!!.requestLocationUpdates(
+        mFusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
@@ -225,7 +231,7 @@ class MainActivity : AppCompatActivity() {
         val delimiter = "\t"
 
         // Read text
-        try {
+        try{
 
             val file_name = "coordenadas.txt"
             val string = application.assets.open(file_name).bufferedReader().use{
@@ -242,11 +248,13 @@ class MainActivity : AppCompatActivity() {
             val near : MutableList<Monument> = ArrayList()
             for (item in monuments){
                 val dist = sqrt((locX - item.x)*(locX-item.x) + (locY - item.y)*(locY - item.y))
+                item.setdist(dist)
                 if (dist < 10000)
                     near.add(item)
             }
             Log.d(TAG,file_name)
-            return near[0]
+            val sorted : List<Monument> = near.sortedBy { Monument-> Monument.dist }
+            return sorted[0]
 
         } catch (e:Exception){
             Log.d(TAG, e.toString())
