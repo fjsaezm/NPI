@@ -11,10 +11,12 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,6 +27,13 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
     val REQUEST_LOCATION = 2
 
     private var sensorManager: SensorManager? = null
+
+    private var northLatitude = 84.03
+    private var northAltitude =  -174.51
+    private var currentLatitude = 0.0
+    private var currentAltitude = 0.0
+    private var targetLatitude = 37.179740
+    private var targetAltitude = -3.609679
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +54,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
                 REQUEST_LOCATION)
         }
         else{
+
             val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val criteria = Criteria()
             val provider = locationManager.getBestProvider(criteria,false)
@@ -52,7 +62,9 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this)
             if(location != null){
-                text_view_location.setText(convertLocationToString(location.latitude,location.longitude))
+                currentLatitude=location.latitude
+                currentAltitude=location.longitude
+                text_view_location.setText(convertLocationToString2(location.latitude,location.longitude))
             }
             else{
                 Toast.makeText(this,"Localización no disponible",Toast.LENGTH_SHORT).show()
@@ -66,6 +78,18 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
         grantResults: IntArray
     ) {
         if(requestCode == REQUEST_LOCATION) setLocation()
+    }
+
+    private fun convertLocationToString2(latitude: Double, longitude: Double): String {
+        val builder = StringBuilder()
+        if (latitude < 0)
+            builder.append("S ") else builder.append("N ")
+        builder.append(latitude.toString())
+        builder.append("\n")
+        builder.append(longitude.toString())
+        builder.append("\"")
+
+        return builder.toString()
     }
 
     private fun convertLocationToString(latitude: Double, longitude: Double): String {
@@ -117,6 +141,26 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
 
     }
 
+    private var angle:Int = 0
+
+    private fun setAngle(){
+        var uv = 0.0
+        var u = DoubleArray(2)
+        var v = DoubleArray(2)
+        u[0] = targetAltitude-currentAltitude
+        u[1] = targetLatitude-currentLatitude
+        v[0] = northAltitude-currentAltitude
+        v[1] = northLatitude-currentLatitude
+
+        uv = Math.acos((u[0]*v[0]+u[1]*v[1])/(Math.sqrt(u[0]*u[0]+u[1]*u[1])*Math.sqrt(v[0]*v[0]+v[1]*v[1])))
+
+        if((v[1]-u[1]<0)){
+            uv = -uv
+        }
+
+        angle = (Math.toDegrees(uv).toInt()+azimuth)%360
+    }
+
     private var rotationMatrix = FloatArray(9)
     private var orientation = FloatArray(3)
     private var azimuth: Int = 0
@@ -146,8 +190,11 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
             azimuth = (Math.toDegrees(SensorManager.getOrientation(rotationMatrix,orientation)[0].toDouble())+360).toInt()%360
         }
 
+        setAngle()
+
         azimuth = Math.round(azimuth.toFloat())
         compass_image.rotation = (-azimuth).toFloat()
+        aguja_image.rotation = (-angle).toFloat()
 
         val where = when(azimuth){
             in 281..349 -> "NW"
