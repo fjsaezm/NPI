@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.jar.Manifest
+import kotlin.math.PI
 
 class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
 
@@ -34,11 +35,11 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
     private var currentLatitude = 0.0
     private var currentLongitude = 0.0
     //Facultad de Ciencias
-    //private var targetLatitude = 37.179740
-    //private var targetLongitude = -3.609679
+    private var targetLatitude = 37.179740
+    private var targetLongitude = -3.609679
     //Facultad de Bellas Artes
-    private var targetLatitude = 37.195484
-    private var targetLongitude = -3.626593
+    //private var targetLatitude = 37.195484
+    //private var targetLongitude = -3.626593
     //Mercadona
     //private var targetLatitude = 37.196587
     //private var targetLongitude = -3.6222805
@@ -84,6 +85,24 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
         angle = uv
     }
 
+    private fun setDistance(){
+
+        //Calculamos la distancia usando la fórmula 'harsevine'
+
+        var R = 6371000
+        var phi1 = currentLatitude* PI/90.0
+        var phi2 = targetLatitude* PI/90.0
+        var phi = phi2 - phi1
+        var lambda = (targetLongitude - currentLongitude)* PI/90.0
+
+        var a = Math.sin(phi/2.0)*Math.sin(phi/2.0)+Math.cos(phi1)*
+                Math.cos(phi2)*Math.sin(lambda/2)*Math.sin(lambda/2)
+        var c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1.0-a))
+        var distance = R*c
+
+        text_view_distance.setText("Distancia: " + Math.round(distance).toString() + " m")
+    }
+
     private fun setLocation() {
         if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED
@@ -105,6 +124,7 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
                 currentLatitude=location.latitude
                 currentLongitude=location.longitude
                 setAngle()
+                setDistance()
                 text_view_location.setText(convertLocationToString(location.latitude,location.longitude))
             }
             else{
@@ -119,18 +139,6 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
         grantResults: IntArray
     ) {
         if(requestCode == REQUEST_LOCATION) setLocation()
-    }
-
-    private fun convertLocationToString2(latitude: Double, longitude: Double): String {
-        val builder = StringBuilder()
-        if (latitude < 0)
-            builder.append("S ") else builder.append("N ")
-        builder.append(latitude.toString())
-        builder.append("\n")
-        builder.append(longitude.toString())
-        builder.append("\"")
-
-        return builder.toString()
     }
 
     private fun convertLocationToString(latitude: Double, longitude: Double): String {
