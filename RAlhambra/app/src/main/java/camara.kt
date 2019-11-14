@@ -8,81 +8,31 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Vibrator
 import android.util.Log
-import android.view.*
+import android.view.SurfaceHolder
+import android.view.SurfaceView
+import android.view.View
 import android.webkit.URLUtil
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import java.io.IOException
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-    // Camera vars
+class Camara : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_CAMERA = 1
     private var token = ""
     private var tokenanterior = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        // camera things
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         initQR(cameraView,vibrator)
-
-
-
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery,
-                R.id.nav_tools, R.id.nav_share
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-
-        
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     fun initQR(cameraView: SurfaceView,vibrator: Vibrator) {
@@ -104,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
                 // verifico si el usuario dio los permisos para la camara
                 if (ActivityCompat.checkSelfPermission(
-                        this@MainActivity,
+                        this@Camara,
                         android.Manifest.permission.CAMERA
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
@@ -169,7 +119,6 @@ class MainActivity : AppCompatActivity() {
 
                         if (URLUtil.isValidUrl(token)) {
                             // si es una URL valida abre el navegador
-                            vibrator.vibrate(200)
                             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(token))
                             startActivity(browserIntent)
                         }
