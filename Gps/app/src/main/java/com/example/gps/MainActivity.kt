@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     // Local vars
     private var waitingGestureYN = false
-    
+
 
 
 
