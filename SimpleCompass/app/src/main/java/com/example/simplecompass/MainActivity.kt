@@ -29,11 +29,23 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
     private var sensorManager: SensorManager? = null
 
     private var northLatitude = 84.03
-    private var northAltitude =  -174.51
+    //private var northLongitude =  -174.51
+    private var northLongitude =  -5.49
     private var currentLatitude = 0.0
-    private var currentAltitude = 0.0
-    private var targetLatitude = 37.179740
-    private var targetAltitude = -3.609679
+    private var currentLongitude = 0.0
+    //Facultad de Ciencias
+    //private var targetLatitude = 37.179740
+    //private var targetLongitude = -3.609679
+    //Facultad de Bellas Artes
+    private var targetLatitude = 37.195484
+    private var targetLongitude = -3.626593
+    //Mercadona
+    //private var targetLatitude = 37.196587
+    //private var targetLongitude = -3.6222805
+    //CEIP San Juan de Dios
+    //private var targetLatitude = 37.201550
+    //private var targetLongitude = -3.625004
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +54,34 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         startCompass()
+    }
+
+    private var angle = 0.0
+
+    private fun setAngle(){
+        //La variable u  es el vector PosicionActual_PosicionObjetivo
+        var u = DoubleArray(2)
+        //La variable v  es el vector PosicionActual_PosicionNorte
+        var v = DoubleArray(2)
+        //La variable uv es el ángulo que forman u_v
+        var uv = 0.0
+        u[0] = targetLongitude-currentLongitude
+        u[1] = targetLatitude-currentLatitude
+        v[0] = northLongitude-currentLongitude
+        v[1] = northLatitude-currentLatitude
+
+        uv = Math.acos((u[0]*v[0]+u[1]*v[1])/(Math.sqrt(u[0]*u[0]+u[1]*u[1])*Math.sqrt(v[0]*v[0]+v[1]*v[1])))
+
+        //La variable n es el giro de 90º antihorario de la variable v
+        var n = DoubleArray(2)
+        n[0] = -v[1]
+        n[1] = v[0]
+
+        if(((u[0]*n[0]+u[1]*n[1])<0)){
+            uv = -uv
+        }
+
+        angle = uv
     }
 
     private fun setLocation() {
@@ -63,8 +103,9 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this)
             if(location != null){
                 currentLatitude=location.latitude
-                currentAltitude=location.longitude
-                text_view_location.setText(convertLocationToString2(location.latitude,location.longitude))
+                currentLongitude=location.longitude
+                setAngle()
+                text_view_location.setText(convertLocationToString(location.latitude,location.longitude))
             }
             else{
                 Toast.makeText(this,"Localización no disponible",Toast.LENGTH_SHORT).show()
@@ -141,26 +182,6 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
 
     }
 
-    private var angle:Int = 0
-
-    private fun setAngle(){
-        var uv = 0.0
-        var u = DoubleArray(2)
-        var v = DoubleArray(2)
-        u[0] = targetAltitude-currentAltitude
-        u[1] = targetLatitude-currentLatitude
-        v[0] = northAltitude-currentAltitude
-        v[1] = northLatitude-currentLatitude
-
-        uv = Math.acos((u[0]*v[0]+u[1]*v[1])/(Math.sqrt(u[0]*u[0]+u[1]*u[1])*Math.sqrt(v[0]*v[0]+v[1]*v[1])))
-
-        if((v[1]-u[1]<0)){
-            uv = -uv
-        }
-
-        angle = (Math.toDegrees(uv).toInt()+azimuth)%360
-    }
-
     private var rotationMatrix = FloatArray(9)
     private var orientation = FloatArray(3)
     private var azimuth: Int = 0
@@ -190,11 +211,10 @@ class MainActivity : AppCompatActivity(), LocationListener, SensorEventListener{
             azimuth = (Math.toDegrees(SensorManager.getOrientation(rotationMatrix,orientation)[0].toDouble())+360).toInt()%360
         }
 
-        setAngle()
-
         azimuth = Math.round(azimuth.toFloat())
+        var finalAngle = (Math.toDegrees(angle).toInt()+azimuth)%360
         compass_image.rotation = (-azimuth).toFloat()
-        aguja_image.rotation = (-angle).toFloat()
+        aguja_image.rotation = (-finalAngle).toFloat()
 
         val where = when(azimuth){
             in 281..349 -> "NW"
