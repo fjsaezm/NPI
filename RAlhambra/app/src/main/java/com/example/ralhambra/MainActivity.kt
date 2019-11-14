@@ -30,8 +30,14 @@ import java.io.IOException
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
+import android.view.GestureDetector
+import android.view.MotionEvent
+import com.google.android.material.appbar.AppBarLayout
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
+GestureDetector.OnDoubleTapListener{
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -40,15 +46,20 @@ class MainActivity : AppCompatActivity() {
     private var token = ""
     private var tokenanterior = ""
 
+    //Gesture detector
+    private var gestureDetector: GestureDetector? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
+        println("LETSGO\n\n\n")
         // camera things
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         initQR(cameraView,vibrator)
+
 
 
 
@@ -70,10 +81,41 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        
+
+        //gesture detector
+        this.gestureDetector = GestureDetector(this, this)
+        gestureDetector!!.setOnDoubleTapListener(this)
+
 
     }
 
+    //Function for getting touch events
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        this.gestureDetector!!.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    // used for picture
+    override fun onDoubleTap(motionEvent: MotionEvent): Boolean {
+       // mTextView!!.text = "onDoubleTap"
+        println("double!!!!")
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout.openDrawer(0)
+        return false
+    }
+
+    //used for menu
+    override fun onLongPress(motionEvent: MotionEvent) {
+        //mTextView!!.text = "onLongPress"
+        println("Longpppgpgprp")
+
+    }
+
+    //required
+    override fun onShowPress(motionEvent: MotionEvent) {
+        //mTextView!!.text = "onShowPress"
+
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -85,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun initQR(cameraView: SurfaceView,vibrator: Vibrator) {
+    private fun initQR(cameraView: SurfaceView,vibrator: Vibrator) {
 
         // creo el detector qr
         val barcodeDetector = BarcodeDetector.Builder(this)
@@ -196,5 +238,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+    }
+    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDown(p0: MotionEvent?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDoubleTapEvent(p0: MotionEvent?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSingleTapConfirmed(p0: MotionEvent?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
