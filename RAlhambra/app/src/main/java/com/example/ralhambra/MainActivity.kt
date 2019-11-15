@@ -1,5 +1,6 @@
 package com.example.ralhambra
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -32,7 +33,9 @@ import android.view.SurfaceView
 import android.view.View
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.widget.RelativeLayout
 import com.google.android.material.appbar.AppBarLayout
+import kotlinx.android.synthetic.main.activity_camara.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -49,13 +52,14 @@ GestureDetector.OnDoubleTapListener{
     //Gesture detector
     private var gestureDetector: GestureDetector? = null
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
         println("LETSGO\n\n\n")
-        // camera things
+        //camera things
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         initQR(cameraView,vibrator)
@@ -98,7 +102,7 @@ GestureDetector.OnDoubleTapListener{
     // used for picture
     override fun onDoubleTap(motionEvent: MotionEvent): Boolean {
        // mTextView!!.text = "onDoubleTap"
-        println("double!!!!")
+        //test_view.text = "onsingletap"
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.openDrawer(0)
         return false
@@ -107,7 +111,6 @@ GestureDetector.OnDoubleTapListener{
     //used for menu
     override fun onLongPress(motionEvent: MotionEvent) {
         //mTextView!!.text = "onLongPress"
-        println("Longpppgpgprp")
 
     }
 
