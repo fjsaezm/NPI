@@ -229,9 +229,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     override fun onSingleTapConfirmed(motionEvent: MotionEvent): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onSingleTapConfirmed"
-        println("singleTap")
-        return false
+        val intent =  Intent(this, Menu::class.java)
+        startActivity(intent)
+        return true
     }
 
     override fun onDoubleTap(motionEvent: MotionEvent): Boolean {
