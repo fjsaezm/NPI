@@ -21,6 +21,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 
 import android.view.GestureDetector
 import android.view.MotionEvent
+import androidx.core.view.MotionEventCompat
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var token = ""
     private var tokenanterior = ""
     private var gestureDetector: GestureDetector? = null
+    private var dosDedos: Boolean = false
+    private var mActivePointerId: Int = 0
+    private var xPosIni: Float? = null
+    private var yPosIni: Float? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,11 +163,40 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureDetector!!.onTouchEvent(event)
+        val action: Int = MotionEventCompat.getActionMasked(event)
+        mActivePointerId = event.getPointerId(0)
+
+
+        if(event.pointerCount == 1) {
+            val (xPos: Float, yPos: Float) = event.findPointerIndex(mActivePointerId).let { pointerIndex ->
+                event.getX(pointerIndex) to event.getY(pointerIndex)
+            }
+            if (dosDedos) {
+                dosDedos = false
+                if (xPos > this!!.xPosIni!!)
+                    findViewById<TextView>(R.id.textView)!!.text = "Desplazamiento hacia derecha"
+                else
+                    findViewById<TextView>(R.id.textView)!!.text = "Desplazamiento hacia izquierda"
+            }else {
+                xPosIni = xPos
+                yPosIni = yPos
+            }
+        }
+
+        if (event.pointerCount == 2){
+            findViewById<TextView>(R.id.textView)!!.text = ""
+            dosDedos = true
+            mActivePointerId = event.getPointerId(1)
+            val (xPos2: Float, yPos2: Float) = event.findPointerIndex(mActivePointerId).let { pointerIndex ->
+                event.getX(pointerIndex) to event.getY(pointerIndex)
+            }
+        }
         return super.onTouchEvent(event)
     }
 
     override fun onSingleTapConfirmed(motionEvent: MotionEvent): Boolean {
         findViewById<TextView>(R.id.textView)!!.text = "onSingleTapConfirmed"
+        println("singleTap")
         return false
     }
 
@@ -198,6 +232,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         v1: Float
     ): Boolean {
         findViewById<TextView>(R.id.textView)!!.text = "onScroll"
+        println("onScroll")
         return false
     }
 
