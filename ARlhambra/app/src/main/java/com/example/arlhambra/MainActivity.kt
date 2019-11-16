@@ -235,9 +235,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     override fun onDoubleTap(motionEvent: MotionEvent): Boolean {
-        val intent =  Intent(this, Compass::class.java)
-        startActivity(intent)
-        //findViewById<TextView>(R.id.textView)!!.text = "onDoubleTap"
+        findViewById<TextView>(R.id.textView)!!.text = "onDoubleTap"
         return false
     }
 
