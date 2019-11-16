@@ -36,7 +36,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MotionEventCompat
 import kotlinx.android.synthetic.main.activity_compass.*
 import kotlin.math.PI
+import kotlin.math.sqrt
 
+private val TAG: String = MainActivity::class.java.simpleName
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     GestureDetector.OnDoubleTapListener, LocationListener, SensorEventListener {
@@ -353,22 +355,26 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         angle = uv
     }
 
-    private fun setDistance(){
-
-        //Calculamos la distancia usando la fórmula 'harsevine'
-
+    private fun distance(latitude: Double, longitude: Double): Double {
         val R = 6371000
         val phi1 = currentLatitude* PI /90.0
-        val phi2 = targetLatitude* PI /90.0
+        val phi2 = latitude* PI /90.0
         val phi = phi2 - phi1
-        val lambda = (targetLongitude - currentLongitude)* PI /90.0
+        val lambda = (longitude - currentLongitude)* PI /90.0
 
         val a = Math.sin(phi/2.0)*Math.sin(phi/2.0)+Math.cos(phi1)*
                 Math.cos(phi2)*Math.sin(lambda/2)*Math.sin(lambda/2)
         val c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1.0-a))
         val distance = R*c
 
-        text_view_distance?.setText("Distancia: " + Math.round(distance).toString() + " m")
+        return distance
+    }
+
+    private fun setDistance(){
+
+        //Calculamos la distancia usando la fórmula 'harsevine'
+
+        text_view_distance?.setText("Distancia: " + Math.round(distance(targetLatitude,targetLongitude)).toString() + " m")
     }
 
     private fun setLocation() {
@@ -557,6 +563,46 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             .setCancelable(false)
             .setNegativeButton("Cerrar"){_,_ -> finish()}
         alertDialog.show()
+    }
+
+    private fun findMonuments(locX : Double, locY : Double) : Monument {
+
+
+        //Auxiliar vars
+        val monuments : MutableList<Monument> = ArrayList()
+        val delimiter = "\t"
+
+        // Read text
+        try{
+
+            val file_name = "coordenadas.txt"
+            val string = application.assets.open(file_name).bufferedReader().use{
+                it.readText()
+            }
+            val splitted = string.split("\n")
+            for(line in splitted){
+                if(line.isNotEmpty()) {
+                    val sp = line.split(delimiter)
+                    monuments.add(Monument(sp[0], sp[1].toDouble(), sp[1].toDouble()))
+                }
+            }
+
+            val near : MutableList<Monument> = ArrayList()
+            for (item in monuments){
+                val dist = distance(item.latitude, item.longitude)
+                item.setdist(dist)
+                if (dist < 10000)
+                    near.add(item)
+            }
+            Log.d(TAG,file_name)
+            val sorted : List<Monument> = near.sortedBy { Monument-> Monument.dist }
+            return sorted[0]
+
+        } catch (e:Exception){
+            Log.d(TAG, e.toString())
+        }
+
+        return Monument("No monument",0.0,0.0)
     }
 
 }
