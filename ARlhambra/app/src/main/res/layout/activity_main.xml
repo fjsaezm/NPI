@@ -16,7 +16,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="186dp">
 
         <TextView
             android:id="@+id/textView"
@@ -28,11 +30,46 @@
             android:textColorHint="#00FD0404"
             android:textSize="20sp"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.1" />
+
+        <TextView
+            android:id="@+id/text_view_distance"
+            android:layout_width="291dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:gravity="right|top"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="58dp"
+            tools:layout_editor_absoluteY="266dp" />
+
+        <ImageView
+            android:id="@+id/compass_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_distance"
+            android:layout_marginTop="55dp"
+            android:layout_weight="7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/compass"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/aguja_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_distance"
+            android:layout_marginTop="82dp"
+            android:layout_weight="7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/aguja"
+            tools:ignore="MissingConstraints" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
