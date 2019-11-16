@@ -309,13 +309,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var sensorManager: SensorManager? = null
 
     private var northLatitude = 84.03
-    //private var northLongitude =  -174.51
     private var northLongitude =  -5.49
     private var currentLatitude = 0.0
     private var currentLongitude = 0.0
+    private var targetLatitude =  85.03
+    private var targetLongitude = -5.49
     //Facultad de Ciencias
-    private var targetLatitude = 37.179740
-    private var targetLongitude = -3.609679
+    //private var targetLatitude = 37.179740
+    //private var targetLongitude = -3.609679
     //Facultad de Bellas Artes
     //private var targetLatitude = 37.195484
     //private var targetLongitude = -3.626593

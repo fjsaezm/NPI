@@ -41,35 +41,35 @@
             android:layout_width="291dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:gravity="right|top"
+            android:gravity="top|left"
             android:textSize="20sp"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="58dp"
-            tools:layout_editor_absoluteY="266dp" />
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="200dp" />
 
         <ImageView
             android:id="@+id/compass_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="191dp"
+            android:layout_height="319dp"
             android:layout_below="@id/text_view_distance"
-            android:layout_marginTop="55dp"
             android:layout_weight="7"
             android:scaleType="fitCenter"
             android:src="@drawable/compass"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="214dp" />
 
         <ImageView
             android:id="@+id/aguja_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="191dp"
+            android:layout_height="319dp"
             android:layout_below="@id/text_view_distance"
-            android:layout_marginTop="82dp"
             android:layout_weight="7"
             android:scaleType="fitCenter"
             android:src="@drawable/aguja"
-            tools:ignore="MissingConstraints" />
-
-
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="214dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
