@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private var tokenanterior = ""
     private var gestureDetector: GestureDetector? = null
     private var dosDedos: Boolean = false
+    private var QRdetectado : Boolean = false
     private var mActivePointerId: Int = 0
     private var xPosIni: Float? = null
     private var yPosIni: Float? = null
@@ -60,7 +61,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT > 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
         setContentView(R.layout.activity_main)
+
+        supportActionBar!!.hide()
 
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -94,7 +102,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         // creo la camara
         var cameraSource = CameraSource.Builder(this, barcodeDetector)
-            .setRequestedPreviewSize(1600, 1024)
+            .setRequestedPreviewSize(2560, 1440)
             .setAutoFocusEnabled(true) //you should add this feature
             .build()
 
@@ -161,7 +169,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
                     // verificamos que el token anterior no se igual al actual
                     // esto es util para evitar multiples llamadas empleando el mismo token
-                    if (token != tokenanterior) {
+                    if (token != tokenanterior && !QRdetectado) {
 
                         // guardamos el ultimo token procesado
                         tokenanterior = token
@@ -169,28 +177,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
                         if (URLUtil.isValidUrl(token)) {
                             // si es una URL valida abre el navegador
+                            QRdetectado = true
                             vibrator.vibrate(200)
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(token))
-                            startActivity(browserIntent)
                         }
-
-                        Thread(object : Runnable {
-                            override fun run() {
-                                try {
-                                    synchronized(this) {
-                                        Thread.sleep(5_000)
-                                        // limpiamos el token
-                                        tokenanterior = ""
-                                    }
-                                } catch (e: InterruptedException) {
-                                    // TODO Auto-generated catch block
-                                    Log.e("Error", "Waiting didnt work!!")
-                                    e.printStackTrace()
-                                }
-
-                            }
-                        }).start()
-
                     }
                 }
             }
@@ -207,12 +196,34 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             val (xPos: Float, yPos: Float) = event.findPointerIndex(mActivePointerId).let { pointerIndex ->
                 event.getX(pointerIndex) to event.getY(pointerIndex)
             }
-            if (dosDedos) {
+            if (dosDedos && QRdetectado) {
                 dosDedos = false
-                if (xPos > this!!.xPosIni!!)
-                    findViewById<TextView>(R.id.textView)!!.text = "Desplazamiento hacia derecha"
-                else
-                    findViewById<TextView>(R.id.textView)!!.text = "Desplazamiento hacia izquierda"
+                if (xPos > this!!.xPosIni!!) {
+                    findViewById<TextView>(R.id.textView)!!.text = "->"
+                    QRdetectado = false
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(token))
+                    startActivity(browserIntent)
+
+                    Thread(object : Runnable {
+                        override fun run() {
+                            try {
+                                synchronized(this) {
+                                    Thread.sleep(5_000)
+                                    // limpiamos el token
+                                    tokenanterior = ""
+                                }
+                            } catch (e: InterruptedException) {
+                                // TODO Auto-generated catch block
+                                Log.e("Error", "Waiting didnt work!!")
+                                e.printStackTrace()
+                            }
+
+                        }
+                    }).start()
+                }else {
+                    QRdetectado = false
+                    findViewById<TextView>(R.id.textView)!!.text = "<-"
+                }
             }else {
                 xPosIni = xPos
                 yPosIni = yPos
@@ -229,6 +240,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
         return super.onTouchEvent(event)
     }
+
 
     override fun onSingleTapConfirmed(motionEvent: MotionEvent): Boolean {
         val intent =  Intent(this, Menu::class.java)
