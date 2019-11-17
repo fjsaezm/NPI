@@ -5,7 +5,7 @@ class Monument(n : String, X : Double, Y: Double) {
     var name: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var dist : Double = 10000.0
+    var dist : Double = 10000000.0
 
     init {
 

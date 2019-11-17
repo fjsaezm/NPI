@@ -427,7 +427,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                 }
                 setAngle()
                 setDistance()
-                //text_view_location?.setText(convertLocationToString(location.latitude,location.longitude))
             }
             else{
                 Toast.makeText(this,"Localización no disponible", Toast.LENGTH_SHORT).show()
@@ -441,34 +440,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         grantResults: IntArray
     ) {
         if(requestCode == REQUEST_LOCATION) setLocation()
-    }
-
-    private fun convertLocationToString(latitude: Double, longitude: Double): String {
-        val builder = StringBuilder()
-        if (latitude < 0)
-            builder.append("S ") else builder.append("N ")
-
-        val latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS)
-        val latitudeSplit = latitudeDegrees.split((":").toRegex()).dropLastWhile ({ it.isEmpty() }).toTypedArray()
-        builder.append(latitudeSplit[0])
-        builder.append("º")
-        builder.append(latitudeSplit[1])
-        builder.append("'")
-        builder.append(latitudeSplit[2])
-        builder.append("\"")
-        builder.append("\n")
-
-        if(longitude < 0) builder.append("W ") else builder.append("E ")
-        val longitudeDegrees = Location.convert(Math.abs(longitude), Location.FORMAT_SECONDS)
-        val longitudeSplit = longitudeDegrees.split((":").toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-        builder.append(longitudeSplit[0])
-        builder.append("º")
-        builder.append(longitudeSplit[1])
-        builder.append("'")
-        builder.append(longitudeSplit[2])
-        builder.append("\"")
-
-        return builder.toString()
     }
 
 
@@ -525,19 +496,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         val finalAngle = (Math.toDegrees(angle).toInt()+azimuth)%360
         compass_image?.rotation = (-azimuth).toFloat()
         aguja_image?.rotation = (-finalAngle).toFloat()
-
-        val where = when(azimuth){
-            in 281..349 -> "NW"
-            in 261..280 -> "W"
-            in 191..260 -> "SW"
-            in 171..190 -> "S"
-            in 101..170 -> "SE"
-            in 81..100 -> "E"
-            in 11..80 -> "NE"
-            else -> "N"
-        }
-
-        text_view_degree?.text = "$azimuth º $where"
     }
 
     private var accelerometer: Sensor? = null
