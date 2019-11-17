@@ -249,7 +249,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     override fun onDoubleTap(motionEvent: MotionEvent): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onDoubleTap"
+        if (text_view_distance!!.getVisibility() == View.VISIBLE){
+            text_view_distance!!.setVisibility(View.GONE)
+            compass_image!!.setVisibility(View.GONE)
+            aguja_image!!.setVisibility(View.GONE)
+        }else{
+            text_view_distance!!.setVisibility(View.VISIBLE)
+            compass_image!!.setVisibility(View.VISIBLE)
+            aguja_image!!.setVisibility(View.VISIBLE)
+        }
         return false
     }
 

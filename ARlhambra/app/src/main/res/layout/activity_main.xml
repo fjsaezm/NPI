@@ -49,27 +49,35 @@
 
         <ImageView
             android:id="@+id/compass_image"
-            android:layout_width="191dp"
-            android:layout_height="319dp"
+            android:layout_width="91dp"
+            android:layout_height="219dp"
             android:layout_below="@id/text_view_distance"
             android:layout_weight="7"
             android:scaleType="fitCenter"
             android:src="@drawable/compass"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="214dp" />
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.86"
+            app:layout_constraintVertical_bias="0.675" />
 
         <ImageView
             android:id="@+id/aguja_image"
-            android:layout_width="191dp"
-            android:layout_height="319dp"
+            android:layout_width="91dp"
+            android:layout_height="219dp"
             android:layout_below="@id/text_view_distance"
             android:layout_weight="7"
             android:scaleType="fitCenter"
             android:src="@drawable/aguja"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="214dp" />
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.86"
+            app:layout_constraintVertical_bias="0.675"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
