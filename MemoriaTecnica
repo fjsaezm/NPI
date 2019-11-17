@@ -1,71 +1,151 @@
 ## NUEVOS PARADIGMAS DE INTERACCIÓN
 ## NUI para La Alhambra de Granada
-![](./fotos/alhambra.jpg)
 
-En esta pŕactica se realizará el desarrollo de un NUI (Natural User Interface) para La Alhambra de Granada incluyendo museos y alrededores.
+Clase monumento:
+  Contiene como parámetros:
+    - nombre del monumento(String)
+    - la latitud (Double)
+    - longitud (Double)
+    - distancia (Double)
+  Se inicializa pasándole el nomnbre, latitud y longitud.
+  Como métodos:
+    - fun setdist(d : Double)
+      Simplemente pone como distancia el valor d que se le pasa
 
-###Primera idea de la aplicación (personal)
+Clase menú:
+  Se ha utilizado la clase menú por defecto de android, la cual se ha modificado para que únicamente aparezcan las pestañas que nos interesan.
+  Pide permisos para utilizar la galería de imágenes del dispositivo y el bluetooth.
+  Las opciones disponibles en el menú son:
+    - Retornar del menú a las gafas
+    - Ver la información de ayuda de la aplicación
+    - Compartir las fotos tomadas
 
-Utilizar el móvil y sus distintos sensores para simular una visita guiada en la cual se pueden realizar distintos recorridos por la Alhambra y aprender sobre su historia y monumentos.
+  Dentro de las funciones del menú por defecto de android se han añadido nuevos métodos para añadir los botones.
 
-#### Funciones principales:
+Main:
 
- Se podrá ver los horarios de apertura y cierre, además del precio de entrada y la posibilidad de adquirirla directamente mediante la aplicación.
+  Utiliza AppCompatActivity(), GestureDetector.OnGestureListener,
+  GestureDetector.OnDoubleTapListener, LocationListener, SensorEventListener.
 
- La aplicación contará con un mapa del entorno monumental donde se resaltarán los distintos lugares de importancia y se permitirá elegir entre varios recorridos. Dichos recorridos podrán seleccionarse entre algunos ya determinados y, además, se permitirá la creación de nuevos recorridos seleccionando los monumentos que se desean visitar. En cada recorrido se destacará la duración del mismo y los monumentos que se visitarían.
+  - override fun onCreate(savedInstanceState: Bundle?)
 
- Otra funcionalidad será la de tener un museo virtual en el cual se podrán ver fotos e información de los monumentos, lugares y objetos relevantes de la Alhambra. No solo contendrá imágenes, también modelos 3d.
 
- Se pueden implementar opciones extra como jugar a un trivia con preguntas sobre la Alhambra.
+  - override fun onPause()
+      Simplemente para la aplicación haciendo super.onPause() y stopCompass()
 
-#### Posibles usos de sensores a implementar:
+  - override fun onResume()
+      Simplemente reanuda la aplicación haciendo super.onResume() y startCompass()
+GESTOS
 
-- Uso del GPS para estar orientados dentro La Alhambra en todo momento y poder realizar distintos recorridos sin necesidad de guía. Al llegar a un lugar de especial interés la aplicación podrá preguntar si de desea conocer la historia de dicho lugar, ver una representación de cómo era antiguamente, etc.
+Parámetros
 
-- Vibración: se utilizará la vibración para notificar avisos, como por ejemplo al estar cerca de un monumento.
+  -
 
-- Voz y gestos: Uso de comandos de voz para moverse por los menús de la aplicación. Un gesto para contestar positivamente (confirmar, aceptar) y otro negativamente (volver atrás, negar). La aplicación podrá realizar preguntas al usuario y éste podrá contestar por voz, gestos o utilizando la pantalla táctil del movil.
+Funciones
+  -
 
-- Utilización de la tecnología NFC del móvil para poder pagar la entrada fácilmente sin necesidad de utilizar la tarjeta de crédito.
+BRÚJULA
 
-- Cámara: Al utilizar el museo virtual y seleccionar un monumento, objeto. Se podrá utilizar la cámara para visualizar un modelo 3d del mismo mediante Realidad Aumentada (podrían utilizarse cartas marcadas para determinar donde mostrar el modelo y con qué tamaño). Además en el museo real los objetos tendrán un código QR que se podrá escanear para obtener la información de dicho objeto.
+Parámetros:
 
-Finalmente habrá un menú de opciones donde se podrán deshabilitar las funcionalidades que no se quieran utilizar, adicionalmente permitirá descargar datos como el mapa y la información de los monumentos con el objetivo de poder utilizar ciertas características sin necesidad de internet.
+  - sensorManager: de tipo SensorManager, para gestionar los sensores de la brújula.
 
-### Idea a desarrollar la aplicación (grupal)
+  - accelerometer, magnetometer y rotationVector: sensores que utiliza la brújula.
 
-Usaremos una gafas especiales (similares a las Google glass) que nos permitirán obtener una experiencia de Realidad Aumentada en la visita a la Alhambra y simular una visita con un guía personal.
+  - haveSensorAccelerometer, haveSensorMagenotemeter y private var haveSensorRotationVector:
+      booleanos para marcar si tenemos dichos sensores.
 
-Las gafas tendrán integradas: cámara, micrófono, altavoces, GPS, acelerómetro, magnétometro y paneles multitáctiles a los lados de las gafas.
+  - lastAccelerometer, lastMagnetometer: último valor obtenido de dichos sensores.
 
-Los cristales de las gafas permitirán una visión normal y. al mismo tiempo, mostrar imágenes como si se tratara de la pantalla de un móvil. Mientras el usuario vaya paseando por los jardines y palacios de la Alhambra un asistente le irá ofreciendo recomendaciones e información de monumentos a los que visitar, asimismo el usuario podrá rechazar o aceptar dichas recomendaciones mediante comandos de voz o gestos a realizar en el panel multitáctil. Las gafas permitirán ver en todo momento donde nos encontramos y como llegar a los lugares deseados, además se podrán ver distintos modelos 3d de los monumentos.
+  - lastAccelerometerSet, lastMagnetometerSet: booleanos para marcar si hemos
+      obtenido el último valor de los sensores.
 
-#### Funcionalidades principales:
+  - rotationMatrix, orientation y azimuth: respectivamente, el valor de la matriz
+      de rotación de la brújula, la orientación de la brújula y el ángulo que rota
+      la brújula.
 
-Podremos saber donde estamos en todo momento y adonde nos dirigimos mediante un mapa con nuestra localización que se podrá visualizar en una esquina de las gafas (el cual podremos desactivar si se quiere). Además, teniendo en cuenta nuestra localización, la aplicación nos mostrará los monumentos más cercanos que no hayamos visitado y nos permitirá elegir cual deseamos ver, de esta forma podremos realizar una visita interactiva como si tuviéramos un guía siempre presente que nos va guiando por los monumentos que más nos interesan.
+  - northLatitude, northLongitude, currentLatitude, currentLongitude,
+    targetLatitude, targetLongitude: coordenadas del norte magnético, la posición
+    actual y la posición del lugar al que se quiere llegar.
 
-Cuando nos encontremos frente a un monumento o lugar de interés la aplicación podrá reconocerlo con la cámara integrada y nos ofrecerá información sobre su historia, al mismo tiempo podremos visualizar un modelo de cómo era antiguamente. Volviendo a utilizar la cámara se podrán sacar fotos y luego compartirlas, obteniendo así una experiencia más social.
+  - angle: ángulo en radianes respecto al norte en el que se encuentra el objetivo.
+          Ejemplo: si angle = 0, entonces el objetivo se encuentra al norte respecto
+          nuestra posición actual; si angle = PI, el objetivo se encuentra al sur.
 
-Para navegar por la aplicación y hacer uso de sus distintas funcionalidades de la forma más fácil y cómoda posible, las gafas tendrán un panel táctil en el que realizando diferentes gestos sencillos se podrán sacar fotos, elegir que monumento visitar, pasar al menú, ...
+Funciones de la bŕujula:
+  - private fun setAngle()
+      Actualiza el valor de la variable angle, asignándole el valor del ángulo
+      que forman los vectores u (localizaciónActual_localizaciónObjetivo) y v
+      (localizaciónActual_localizaciónNorte).
+      Para ello al vector u se le asignan las coordenadas del objetivo menos las
+      coordenadas actuales, mientras que al vector v se le asignan las coordenadas
+      del norte menos las coordenadas actuales.
+      Luego obtenemos el ańgulo que forman u y v haciendo arcocoseno(<u,v>/(|u||v|)),
+      para ello utilizamos las funciones de Math.
+      Como el arcocoseno da los valores entre [0, PI], para saber si el ángulo es
+      negativo hacemos la función distancia con signo. Si (<u,n> < 0) entonces
+      el ángulo es negativo, siendo n el giro de 90º antihorario de la variable v.
+      Por último, igualamos la variable angle al ángulo obtenido.
 
-#### Usos de los sensores:
+  - private fun distance(latitude: Double, longitude: Double): Double
+      Devuelva la distancia en metros de la posición actual a la posición cuyas coordenadas
+      se pasan como parámetros.
+      La distancia se calcula utilizando la fórmula 'harsevine'
+                    distancia = R*c
+        siendo
+                    c = 2*arcotangente(a^(1/2),(1-a)^(1/2))
+            a = seno(phi/2)*seno(phi/2)+cos(phi1)*cos(phi2)*seno(lambda/2)^2
+                    R = radio de la Tierra en metros (6371000)
+                    phi1 = latitud_actual (en radianes)
+                    phi2 = latitude (en radianes)
+                    phi = phi2 - phi1
+                    lambda = longitude - longitud_actual (en radianes)
 
-- GPS: Gracias al GPS se podrá saber la posición en que nos encontramos dentro de la Alhambra, a qué distancia están los lugares más emblemáticos y como llegar hasta ellos. De esta manera podemos presentar los monumentos más cercanos y permitir que el usuario decida cuál de ellos quiere visitar, simulando un guía que nos pregunta por el lugar que preferimos ver.
+  - private fun setLocation()
+      Actualizamos la localización actual.
+      Primero comprobamos que tenemos los permisos del GPS para detectar la posición,
+      en caso de no tenerlos se piden. A continuación contactamos con el mejor proveedor
+      y le pedimos la última localización conocida. Si obtenemos la localización
+      entonces actualizamos nuestra posición, en caso contrario mostramos un
+      mensaje de error, "localización no disponible".
+      Para obtener la posición utilizamos funciones predefinidas de android.
 
-- Magnétometro y Acelerómetro: con ambos sensores se implementa una brújula, que junto con el GPS, nos permitirá ver,no śolo la localización actual, además la dirección en que estamos mirando y la dirección en que se encuentra el monumento al que deseamos llegar. Así nuestra aplicación nos va guiando hasta el monumento.
+  - override fun onLocationChanged(location: Location?)
+      Si la posición detectada por el GPS ha cambiado entonces actualizamos la
+      posición actual mediante setLocation(), obtenemos el monumento más cercano
+      utilizando la función findMonuments que hemos implementado, cambiamos el
+      objetivo a dicho monumento si se ha encontrado y está a menos de 20000 metros.
+      Luego actualizamos el ángulo y la distancia con setAngle() y setDistance().
 
-- Cámara: su funcionalidad más considerable es la de reconocimiento de monumentos, de forma que al reconocerlo nos ofrezca información de interés y la posibilidad de visualizar un modelo de cómo era en la época nazarí.
-Nota: Debido a que el reconocimiento de los distintos monumentos resultaba ser una actividad demasiado difícil de programar, en la práctica lo que se hace es reconocimiento de códigos QR cada uno asociado con un monumento.
+  - override fun onSensorChanged(event: SensorEvent?)
+      Si se detecta un cambio en el vector de rotación, en el acelerómetro o en
+      el magnétometro, entonces se actualiza la información de dichos sensores y
+      la brújula gira conforme al cambio detectado, señalando la aguja roja al norte
+      y la aguja amarilla al objetivo.
+      Para detectar los cambios de dichos sensores se utilizan funciones ya
+      definidas en Android. Para que la aguja roja apunte al norte  obtenemos
+      la rotación de la brújula mediante el magnétometro y el acelerómetro, para
+      que la amarilla apunte al objetivo le sumamos angle al ángulo de giro de la
+      brújula. A continuación rotamos ambas imágenes modificando su parámetro rotation.
 
-- Multitáctil: Cada vez que la aplicación nos ofrezca visitar un monumento u obtener información sobre él podremos aceptar/rechazar realizando gestos con dos dedos en la pantalla Multitáctil. De igual manera podremos sacar fotos y acceder al menú de la aplicación al hacer distintos gestos.
+  - private fun findMonuments(locX : Double, locY : Double) : Monument
+      Devuelve el monumento más cercano a nuestra posición actual siempre que se
+      encuentra a menos de 500 metros. Los monumentos que se tienen en cuenta son
+      los que aparecen en el archivo coordenadas.txt (que se encuentra en app/assets).
 
-#### Descripción del funcionamiento práctico
+      Primero obtiene los monumentos con sus nombres y coordenadas del documento
+      coordenadas.txt y los mete en una lista. A continuación por cada monumento
+      calcula la distancia respecto a la posición actual utilizando la función distance,
+      si dicha distancia es menor de 500 metros lo mete en una lista ordenada según
+      la distancia (de menor a mayor).
+      Por último, devuelve el monumento más cercano, si ningún monumento se encuentra
+      a una distancia menor de 500 metros entonces devuelve un monumento con nombre
+      "No monument", coordenadas por defecto (0,0) y distancia de 1000 kilómetros.
 
-Como claramente no disponemos de las gafas descritas a la hora de desarrollar la práctica utilizaremos el móvil como si se tratase de las gafas, para ello llevaremos el móvil en posición horizontal a la altura de los ojos y utilizaremos la cámara para simular que podemos ver a través del móvil como si de unas gafas se tratase.
+  - private fun startCompass()
+      Pone a funcionar la brújula tomando los permisos de los sensores magnétometro,
+      acelerómetro y vector de rotación. A continuación se pone a recibir la información
+      de dichos sensores.
 
-Tratamos de plantear la aplicación de forma que fuera lo más ligera de menús de selección posible. Es por ello que trataremos de que todos los procesos estén funcionando al mismo y ofrezcan una buena experiencia al usuario.
-Al iniciar la aplicación pasamos directamente a la cámara para poder ver lo que estamos apuntando con el móvil. Cuando nuestra aplicación reconociese una cierto código QR que representa un lugar emblemático, saltará una notificación que nos pregunta si queremos obtener información sobre el lugar hacia el que se está mirando, respondiendo afirmativamente o negativamente con un gesto a realizar en la pantalla del móvil. En nuestro caso, deslizar dos dedos hacia arriba para aceptar y hacia abajo para rechazar.
-
-El siguiente proceso importante es el uso del GPS para, sin dar al usuario una guía concreta de qué camino seguir al visitar la Alhambra y haciendo que la visita sea más interactiva en este aspecto, detectar la posición del mismo y descubrirle ciertos lugares que estén cerca de él y pueda visitarlos. Para ello, cuando nuestra aplicación detecte la cercanía del usuario a uno de los monumentos, una notificación aparecería al usuario indicando que se encuentra próximo y preguntándole si quiere obtener alguna indicación sobre cómo llegar al mismo. Hay que tener en cuenta que si un usuario acepta o rechaza información sobre un monumento, se debe introducir este en una lista de "monumentos visitados" y "monumentos que no se desean visitar por el momento", para que la aplicación descarte este tipo de monumentos si se vuelve a pasar cerca de ellos. Para facilitar el llegar al monumento, se mostrará en la esquina del móvil una brújula que tendrá una aguja amarilla que apuntará al lugar seleccionado y, adicionalmente, la distancia al monumento.
-
-Por último, introducimos un cierto componente social al incorporar la posibilidad de sacar fotos y luego permitir compartirlas. Las fotos se tomarán al mantener presionados dos dedos durante unos segundos.
+  - private fun stopCompass()
+      Deja de escuchar la información de los sensores para la brújula.
