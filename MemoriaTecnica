@@ -7,7 +7,7 @@ Clase monumento:
     - la latitud (Double)
     - longitud (Double)
     - distancia (Double)
-  Se inicializa pasándole el nomnbre, latitud y longitud.
+  Se inicializa pasándole el nombre, latitud y longitud.
   Como métodos:
     - fun setdist(d : Double)
       Simplemente pone como distancia el valor d que se le pasa
@@ -37,12 +37,21 @@ Main:
       Simplemente reanuda la aplicación haciendo super.onResume() y startCompass()
 GESTOS
 
-Parámetros
+Se ha implementado la siguiente serie de gestos:
+  - Tap (un toque): abre el menú
+  - DoubleTap (doble toque): muestra/oculta la brujula
+  - LongPress (mantener pulsado)
+  - OnScroll (pulsar y arrastrar el dedo)
+  - OnFling (pulsar, arrastrar el dedo y levantarlo de la pantalla mientras este aun se esta moviendo)
+  - OnScroll con dos dedos a derecha e izquierda: aceptar o denegar.
 
-  -
+Una vez tenemos implementado el onScroll con dos dedos es fácil implementar el Tap con dos dedos y otra serie de gestos, pero como no los hemos usado hemos prescindido de añadirlos. De hecho hay gestos que están implementados pero no le hemos dado por ahora ningún uso, pero podría tener uso en alguna actualización futura.
 
-Funciones
-  -
+Para la implementación de estos gestos hemos usado las clases GestureDetector.OnGestureListener y  GestureDetector.OnDoubleTapListener, además de hacer override a la función onTouch()
+
+CÁMARA
+
+
 
 BRÚJULA
 
