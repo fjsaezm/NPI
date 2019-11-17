@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         //Camera and vibrator on QR detection
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        mTextView = findViewById(R.id.textView)
         initQR(cameraView,vibrator!!)
 
 
@@ -102,7 +103,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         //Mensaje
         Toast.makeText(getApplicationContext(),getString(R.string.indicacion), Toast.LENGTH_LONG).show()
-        mTextView = findViewById(R.id.textView)
     }
 
     fun initQR(cameraView: SurfaceView,vibrator: Vibrator) {
@@ -245,7 +245,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         }
 
         if (event.pointerCount == 2){
-            findViewById<TextView>(R.id.textView)!!.text = ""
             dosDedos = true
             mActivePointerId = event.getPointerId(1)
             val (xPos2: Float, yPos2: Float) = event.findPointerIndex(mActivePointerId).let { pointerIndex ->
@@ -302,6 +301,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         v1: Float
     ): Boolean {
         //findViewById<TextView>(R.id.textView)!!.text = "onScroll"
+        if (QRdetectado)
+            mTextView!!.text = "Detectado ${token}\n" + getString(R.string.aceptarDenegar)
         return false
     }
 
