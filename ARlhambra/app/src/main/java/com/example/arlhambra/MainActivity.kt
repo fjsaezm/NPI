@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Set full screen
         if (Build.VERSION.SDK_INT > 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -68,18 +69,21 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         setContentView(R.layout.activity_main)
 
+        //Hide top bar
         supportActionBar!!.hide()
 
+        //Camera and vibrator on QR detection
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
         var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         initQR(cameraView,vibrator)
 
 
+        //Gesture detection
         this.gestureDetector = GestureDetector(this, this)
         gestureDetector!!.setOnDoubleTapListener(this)
 
 
-        //Esta parte es de la brújula y el GPS
+        //Brújula (usando GPS)
 
 
         text_view_distance = findViewById(R.id.text_view_distance)
@@ -314,11 +318,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
 
     //***************************************
-    //A partir de aquí es la brújula y el GPS
+    // Brújula y el GPS
     //***************************************
-
-
-
 
 
 
@@ -377,10 +378,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
     private fun distance(latitude: Double, longitude: Double): Double {
         val R = 6371000
-        val phi1 = currentLatitude* PI /90.0
-        val phi2 = latitude* PI /90.0
+        val phi1 = currentLatitude* PI /180.0
+        val phi2 = latitude* PI /180.0
         val phi = phi2 - phi1
-        val lambda = (longitude - currentLongitude)* PI /90.0
+        val lambda = (longitude - currentLongitude)* PI /180.0
 
         val a = Math.sin(phi/2.0)*Math.sin(phi/2.0)+Math.cos(phi1)*
                 Math.cos(phi2)*Math.sin(lambda/2)*Math.sin(lambda/2)
@@ -417,6 +418,13 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             if(location != null){
                 currentLatitude=location.latitude
                 currentLongitude=location.longitude
+                val m = findMonuments(currentLatitude,currentLongitude)
+                if (m.dist < 20000){
+                    findViewById<TextView>(R.id.textView)!!.text = "Tienes el monumento: " + m.name + " cerca de ti"
+                    targetLatitude = m.latitude
+                    targetLongitude = m.longitude
+                    setAngle()
+                }
                 setAngle()
                 setDistance()
                 //text_view_location?.setText(convertLocationToString(location.latitude,location.longitude))
@@ -603,17 +611,20 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             for(line in splitted){
                 if(line.isNotEmpty()) {
                     val sp = line.split(delimiter)
-                    monuments.add(Monument(sp[0], sp[1].toDouble(), sp[1].toDouble()))
+                    monuments.add(Monument(sp[0], sp[1].toDouble(), sp[2].toDouble()))
                 }
             }
 
             val near : MutableList<Monument> = ArrayList()
+
+
             for (item in monuments){
                 val dist = distance(item.latitude, item.longitude)
                 item.setdist(dist)
-                if (dist < 10000)
+                if (dist < 500)
                     near.add(item)
             }
+
             Log.d(TAG,file_name)
             val sorted : List<Monument> = near.sortedBy { Monument-> Monument.dist }
             return sorted[0]
