@@ -74,10 +74,44 @@ Se ha implementado la siguiente serie de gestos:
 
 Una vez tenemos implementado el onScroll con dos dedos es fácil implementar el Tap con dos dedos y otra serie de gestos, pero como no los hemos usado hemos prescindido de añadirlos. De hecho hay gestos que están implementados pero no le hemos dado por ahora ningún uso, pero podría tener uso en alguna actualización futura.
 
-Para la implementación de estos gestos hemos usado las clases GestureDetector.OnGestureListener y  GestureDetector.OnDoubleTapListener, además de hacer override a la función onTouch()
+Para la implementación de estos gestos hemos usado las clases GestureDetector.OnGestureListener y  GestureDetector.OnDoubleTapListener, además de hacer override a la función onTouchEvent
+
+Parámetros:
+
+  - gestureDetector: para la detección de gestos
+  - xPosIni, yPosIni: píxeles en los que se inician el gesto con dos dedos
+  - dosDedos: indica que se viene de una acción con dos dedos
+
+Funciones:
+
+  - onTouchEvent: se llama cuando hay un evento touch. En dicha función esta implementado los gestos multitouch.
+  - onSingleTapConfirmed: abre menú.
+  - onDoubleTap: indica que se ha tocado dos veces la pantalla (sin uso).
+  - onDoubleTapEvent: muestra/oculta brújula.
+  - onDown: indica que se ha pulsado la pantalla (sin uso).
+  - onShowPress: se ha mantenido cierto tiempo presionado la pantalla (sin uso).
+  - onSingleTapUp: indica que se ha levantado el dedo de la pantalla (sin uso).
+  - onScroll: se ha pulsado y acto seguido desplazado el dedo por la pantalla (sin uso).
+  - onLongPress: se ha pulsado y mantenido por un periódo de tiempo considerable la pantalla (sin uso)
+  - onFling: cuando realizas un gesto onScroll y dejas de tocar la pantalla estando el puntero en movimiento (sin uso).
 
 CÁMARA
 
+La funcionalidad de la cámara es simular el uso de unas smart glasses mediante el uso de nuestro smartphone, además de tener implementado un detector de barras QR. La idea es que el propio dispositivo reconociera el monumento en sí, pero no hemos podido implementar dicha funcionalidad, por lo que hemos sustituido por un código QR. Otras funcionalidades serían poder sacar fotos con tus smart glasses y que se guarden en tu smartphone mediante bluetooth u otros medios, y también poder hacer otros tipos de acciones como usar el zoom.
+
+Parámetros:
+
+  - MY_PERMISSIONS_REQUEST_CAMERA : booleano para comprobar si se tienen permisos de cámara
+  - token : token actual
+  - tokenanterior : token anterior, usado para no leer varias veces el mismo token seguidos
+  - QRdetectado : booleano que indica si se ha detectado un código QR.
+
+Funciones:
+
+  - initQR: inicia la cámara y el detector QR.
+  - surfaceCreated: comprueba si se tiene permisos para abrir la cámara, y si es así abre la cámara.
+  - surfaceDestroyed: cierra la cámara.
+  - receiveDetections: indica que hacer cuando se detecta un código QR.
 
 
 GPS/BRÚJULA
