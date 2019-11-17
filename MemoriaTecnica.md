@@ -12,16 +12,16 @@ Clase monumento:
 
   Contiene como parámetros:
 
-    - nombre del monumento(String)
-    - la latitud (Double)
-    - longitud (Double)
-    - distancia (Double)
+  - nombre del monumento(String)
+  - la latitud (Double)
+  - longitud (Double)
+  - distancia (Double)
 
   Se inicializa pasándole el nombre, latitud y longitud.
 
   Como métodos:
 
-    - fun setdist(d : Double)
+  - fun setdist(d : Double)
       Simplemente pone como distancia el valor d que se le pasa
 
 Clase menú:
