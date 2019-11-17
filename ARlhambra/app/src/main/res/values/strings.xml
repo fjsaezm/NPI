@@ -18,4 +18,8 @@
     <string name="share_message">Share!</string>
     <string name="backButton">Back!</string>
 
+    <string name="aceptarDenegar">¿Quieres más información?</string>
+    <string name="textoVacio"></string>
+
+
 </resources>

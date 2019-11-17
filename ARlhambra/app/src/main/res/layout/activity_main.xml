@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#994E4C4C"
-            android:text="@string/indicacion"
             android:textColor="#FFFFFF"
             android:textColorHint="#00FD0404"
             android:textSize="20sp"
@@ -34,7 +33,7 @@
             app:layout_constraintLeft_toRightOf="parent"
             app:layout_constraintRight_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.2" />
 
         <TextView
             android:id="@+id/text_view_distance"

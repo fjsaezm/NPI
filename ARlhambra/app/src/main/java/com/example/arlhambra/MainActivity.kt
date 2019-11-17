@@ -35,6 +35,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MotionEventCompat
 import kotlinx.android.synthetic.main.activity_compass.*
+import org.w3c.dom.Text
 import kotlin.math.PI
 import kotlin.math.sqrt
 
@@ -46,12 +47,15 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     private val MY_PERMISSIONS_REQUEST_CAMERA = 1
     private var token = ""
     private var tokenanterior = ""
+    private var vibrator : Vibrator? = null
     private var gestureDetector: GestureDetector? = null
     private var dosDedos: Boolean = false
     private var QRdetectado : Boolean = false
     private var mActivePointerId: Int = 0
     private var xPosIni: Float? = null
     private var yPosIni: Float? = null
+
+    private var mTextView: TextView? = null
 
     private var text_view_distance: TextView? = null
     private var text_view_location: TextView? = null
@@ -74,8 +78,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
 
         //Camera and vibrator on QR detection
         var cameraView = findViewById<View>(R.id.camera_view) as SurfaceView
-        var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        initQR(cameraView,vibrator)
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        initQR(cameraView,vibrator!!)
 
 
         //Gesture detection
@@ -95,6 +99,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         setLocation()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         startCompass()
+
+        //Mensaje
+        Toast.makeText(getApplicationContext(),getString(R.string.indicacion), Toast.LENGTH_LONG).show()
+        mTextView = findViewById(R.id.textView)
     }
 
     fun initQR(cameraView: SurfaceView,vibrator: Vibrator) {
@@ -203,7 +211,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
             if (dosDedos && QRdetectado) {
                 dosDedos = false
                 if (xPos > this!!.xPosIni!!) {
-                    findViewById<TextView>(R.id.textView)!!.text = "->"
+                    findViewById<TextView>(R.id.textView)!!.text = getString(R.string.textoVacio)
+                    vibrator!!.vibrate(100)
                     QRdetectado = false
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(token))
                     startActivity(browserIntent)
@@ -225,8 +234,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                         }
                     }).start()
                 }else {
+                    vibrator!!.vibrate(100)
                     QRdetectado = false
-                    findViewById<TextView>(R.id.textView)!!.text = "<-"
+                    findViewById<TextView>(R.id.textView)!!.text = getString(R.string.textoVacio)
                 }
             }else {
                 xPosIni = xPos
@@ -266,22 +276,22 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
     }
 
     override fun onDoubleTapEvent(motionEvent: MotionEvent): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onDoubleTapEvent"
+        //findViewById<TextView>(R.id.textView)!!.text = "onDoubleTapEvent"
         return false
     }
 
     override fun onDown(motionEvent: MotionEvent): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onDown"
+        //findViewById<TextView>(R.id.textView)!!.text = "onDown"
         return false
     }
 
     override fun onShowPress(motionEvent: MotionEvent) {
-        findViewById<TextView>(R.id.textView)!!.text = "onShowPress"
+        //findViewById<TextView>(R.id.textView)!!.text = "onShowPress"
 
     }
 
     override fun onSingleTapUp(motionEvent: MotionEvent): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onSingleTapUp"
+        //findViewById<TextView>(R.id.textView)!!.text = "onSingleTapUp"
         return false
     }
 
@@ -291,13 +301,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         v: Float,
         v1: Float
     ): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onScroll"
-        println("onScroll")
+        //findViewById<TextView>(R.id.textView)!!.text = "onScroll"
         return false
     }
 
     override fun onLongPress(motionEvent: MotionEvent) {
-        findViewById<TextView>(R.id.textView)!!.text = "onLongPress"
+        //findViewById<TextView>(R.id.textView)!!.text = "onLongPress"
 
     }
 
@@ -307,7 +316,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         v: Float,
         v1: Float
     ): Boolean {
-        findViewById<TextView>(R.id.textView)!!.text = "onFling"
+        //findViewById<TextView>(R.id.textView)!!.text = "onFling"
         return false
     }
 
