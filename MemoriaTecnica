@@ -1,0 +1,71 @@
+## NUEVOS PARADIGMAS DE INTERACCIÓN
+## NUI para La Alhambra de Granada
+![](./fotos/alhambra.jpg)
+
+En esta pŕactica se realizará el desarrollo de un NUI (Natural User Interface) para La Alhambra de Granada incluyendo museos y alrededores.
+
+###Primera idea de la aplicación (personal)
+
+Utilizar el móvil y sus distintos sensores para simular una visita guiada en la cual se pueden realizar distintos recorridos por la Alhambra y aprender sobre su historia y monumentos.
+
+#### Funciones principales:
+
+ Se podrá ver los horarios de apertura y cierre, además del precio de entrada y la posibilidad de adquirirla directamente mediante la aplicación.
+
+ La aplicación contará con un mapa del entorno monumental donde se resaltarán los distintos lugares de importancia y se permitirá elegir entre varios recorridos. Dichos recorridos podrán seleccionarse entre algunos ya determinados y, además, se permitirá la creación de nuevos recorridos seleccionando los monumentos que se desean visitar. En cada recorrido se destacará la duración del mismo y los monumentos que se visitarían.
+
+ Otra funcionalidad será la de tener un museo virtual en el cual se podrán ver fotos e información de los monumentos, lugares y objetos relevantes de la Alhambra. No solo contendrá imágenes, también modelos 3d.
+
+ Se pueden implementar opciones extra como jugar a un trivia con preguntas sobre la Alhambra.
+
+#### Posibles usos de sensores a implementar:
+
+- Uso del GPS para estar orientados dentro La Alhambra en todo momento y poder realizar distintos recorridos sin necesidad de guía. Al llegar a un lugar de especial interés la aplicación podrá preguntar si de desea conocer la historia de dicho lugar, ver una representación de cómo era antiguamente, etc.
+
+- Vibración: se utilizará la vibración para notificar avisos, como por ejemplo al estar cerca de un monumento.
+
+- Voz y gestos: Uso de comandos de voz para moverse por los menús de la aplicación. Un gesto para contestar positivamente (confirmar, aceptar) y otro negativamente (volver atrás, negar). La aplicación podrá realizar preguntas al usuario y éste podrá contestar por voz, gestos o utilizando la pantalla táctil del movil.
+
+- Utilización de la tecnología NFC del móvil para poder pagar la entrada fácilmente sin necesidad de utilizar la tarjeta de crédito.
+
+- Cámara: Al utilizar el museo virtual y seleccionar un monumento, objeto. Se podrá utilizar la cámara para visualizar un modelo 3d del mismo mediante Realidad Aumentada (podrían utilizarse cartas marcadas para determinar donde mostrar el modelo y con qué tamaño). Además en el museo real los objetos tendrán un código QR que se podrá escanear para obtener la información de dicho objeto.
+
+Finalmente habrá un menú de opciones donde se podrán deshabilitar las funcionalidades que no se quieran utilizar, adicionalmente permitirá descargar datos como el mapa y la información de los monumentos con el objetivo de poder utilizar ciertas características sin necesidad de internet.
+
+### Idea a desarrollar la aplicación (grupal)
+
+Usaremos una gafas especiales (similares a las Google glass) que nos permitirán obtener una experiencia de Realidad Aumentada en la visita a la Alhambra y simular una visita con un guía personal.
+
+Las gafas tendrán integradas: cámara, micrófono, altavoces, GPS, acelerómetro, magnétometro y paneles multitáctiles a los lados de las gafas.
+
+Los cristales de las gafas permitirán una visión normal y. al mismo tiempo, mostrar imágenes como si se tratara de la pantalla de un móvil. Mientras el usuario vaya paseando por los jardines y palacios de la Alhambra un asistente le irá ofreciendo recomendaciones e información de monumentos a los que visitar, asimismo el usuario podrá rechazar o aceptar dichas recomendaciones mediante comandos de voz o gestos a realizar en el panel multitáctil. Las gafas permitirán ver en todo momento donde nos encontramos y como llegar a los lugares deseados, además se podrán ver distintos modelos 3d de los monumentos.
+
+#### Funcionalidades principales:
+
+Podremos saber donde estamos en todo momento y adonde nos dirigimos mediante un mapa con nuestra localización que se podrá visualizar en una esquina de las gafas (el cual podremos desactivar si se quiere). Además, teniendo en cuenta nuestra localización, la aplicación nos mostrará los monumentos más cercanos que no hayamos visitado y nos permitirá elegir cual deseamos ver, de esta forma podremos realizar una visita interactiva como si tuviéramos un guía siempre presente que nos va guiando por los monumentos que más nos interesan.
+
+Cuando nos encontremos frente a un monumento o lugar de interés la aplicación podrá reconocerlo con la cámara integrada y nos ofrecerá información sobre su historia, al mismo tiempo podremos visualizar un modelo de cómo era antiguamente. Volviendo a utilizar la cámara se podrán sacar fotos y luego compartirlas, obteniendo así una experiencia más social.
+
+Para navegar por la aplicación y hacer uso de sus distintas funcionalidades de la forma más fácil y cómoda posible, las gafas tendrán un panel táctil en el que realizando diferentes gestos sencillos se podrán sacar fotos, elegir que monumento visitar, pasar al menú, ...
+
+#### Usos de los sensores:
+
+- GPS: Gracias al GPS se podrá saber la posición en que nos encontramos dentro de la Alhambra, a qué distancia están los lugares más emblemáticos y como llegar hasta ellos. De esta manera podemos presentar los monumentos más cercanos y permitir que el usuario decida cuál de ellos quiere visitar, simulando un guía que nos pregunta por el lugar que preferimos ver.
+
+- Magnétometro y Acelerómetro: con ambos sensores se implementa una brújula, que junto con el GPS, nos permitirá ver,no śolo la localización actual, además la dirección en que estamos mirando y la dirección en que se encuentra el monumento al que deseamos llegar. Así nuestra aplicación nos va guiando hasta el monumento.
+
+- Cámara: su funcionalidad más considerable es la de reconocimiento de monumentos, de forma que al reconocerlo nos ofrezca información de interés y la posibilidad de visualizar un modelo de cómo era en la época nazarí.
+Nota: Debido a que el reconocimiento de los distintos monumentos resultaba ser una actividad demasiado difícil de programar, en la práctica lo que se hace es reconocimiento de códigos QR cada uno asociado con un monumento.
+
+- Multitáctil: Cada vez que la aplicación nos ofrezca visitar un monumento u obtener información sobre él podremos aceptar/rechazar realizando gestos con dos dedos en la pantalla Multitáctil. De igual manera podremos sacar fotos y acceder al menú de la aplicación al hacer distintos gestos.
+
+#### Descripción del funcionamiento práctico
+
+Como claramente no disponemos de las gafas descritas a la hora de desarrollar la práctica utilizaremos el móvil como si se tratase de las gafas, para ello llevaremos el móvil en posición horizontal a la altura de los ojos y utilizaremos la cámara para simular que podemos ver a través del móvil como si de unas gafas se tratase.
+
+Tratamos de plantear la aplicación de forma que fuera lo más ligera de menús de selección posible. Es por ello que trataremos de que todos los procesos estén funcionando al mismo y ofrezcan una buena experiencia al usuario.
+Al iniciar la aplicación pasamos directamente a la cámara para poder ver lo que estamos apuntando con el móvil. Cuando nuestra aplicación reconociese una cierto código QR que representa un lugar emblemático, saltará una notificación que nos pregunta si queremos obtener información sobre el lugar hacia el que se está mirando, respondiendo afirmativamente o negativamente con un gesto a realizar en la pantalla del móvil. En nuestro caso, deslizar dos dedos hacia arriba para aceptar y hacia abajo para rechazar.
+
+El siguiente proceso importante es el uso del GPS para, sin dar al usuario una guía concreta de qué camino seguir al visitar la Alhambra y haciendo que la visita sea más interactiva en este aspecto, detectar la posición del mismo y descubrirle ciertos lugares que estén cerca de él y pueda visitarlos. Para ello, cuando nuestra aplicación detecte la cercanía del usuario a uno de los monumentos, una notificación aparecería al usuario indicando que se encuentra próximo y preguntándole si quiere obtener alguna indicación sobre cómo llegar al mismo. Hay que tener en cuenta que si un usuario acepta o rechaza información sobre un monumento, se debe introducir este en una lista de "monumentos visitados" y "monumentos que no se desean visitar por el momento", para que la aplicación descarte este tipo de monumentos si se vuelve a pasar cerca de ellos. Para facilitar el llegar al monumento, se mostrará en la esquina del móvil una brújula que tendrá una aguja amarilla que apuntará al lugar seleccionado y, adicionalmente, la distancia al monumento.
+
+Por último, introducimos un cierto componente social al incorporar la posibilidad de sacar fotos y luego permitir compartirlas. Las fotos se tomarán al mantener presionados dos dedos durante unos segundos.
