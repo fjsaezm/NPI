@@ -240,3 +240,10 @@ Funciones de la bŕujula y el GPS:
   - private fun stopCompass()
 
       Deja de escuchar la información de los sensores para la brújula.
+
+
+# Diagrama de dependencias
+
+Por último , introducimos un diagrama de dependencias que muestra lo descrito anteriormente en un diagrama
+
+![Diagrama](diagrama2.png)
