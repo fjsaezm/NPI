@@ -71,3 +71,21 @@ La implementación final ha tratado de ajustarse a nuestros conocimientos en el 
 - En la aplicación, se mostrarían la información dentro de las mismas gafas, sin embargo, lo que nosotros hemos hecho ha sido enlazar directamente códigos QR propios con páginas web de los monumentos, lo que provoca que al leer uno y realizar el gesto multitáctil, se abra el navegador y obtengamos la información desde la página web.
 
 En cuanto al **diseño**, se ha tratado que la aplicación sea lo más simple posible, teniendo en ella los mínimos elementos que caracterizan a una aplicación corriente y tratando de que el diseño minimalista proporcione una buena sensación al usuario tanto estéticamente como en funcionalidad.
+
+
+
+
+
+## Interacción Gestual
+
+Ahora tenemos que tratar de utilizar uno de los dispositivos de interacción gestual para implementar algunas funcionalidades con los mismos. Tenemos 3 posibles dispositivos, entre los cuales **Leap Motion** llamó mi atención, pues lo había visto antes funcionando y tenía curiosidad por cómo sería trabajar con él.
+
+Así, mi propuesta fue utilizar *Leap Motion* y, utilizando como complemento **Unity**, realizar actividades gestuales que simulasen actividades que fueran similares a las que se podían hacer en la Alhambra cuando esta servía aún de ciudad. La idea sería utilizar *Leap Motion* en versión de escritorio, pues aunque era interesante utilizar la versión *Orion* (en la que pones el dispositivo a la altura de tu cabeza para detectar las manos en su posición natural), no disponíamos de ningún dispositivo de soporte para *Leap*. En concreto, propuse:
+
+1. Un minijuego de crear figuras a partir de cubos, de manera que pudieses construir ciertos elementos emblemáticos de la alhambra como leones, torres o murallas y *unity* se encargase de construir una figura 3D cuando los elementos colocados fueran los correctos. 
+
+2. Un minijuego en el que tenemos de frente una muralla de la Alhambra con agujeros en los que aparecerían personajes a los que tenemos que golpear con las manos para derribar.
+
+Sin embargo, finalmente estas ideas no parecieron las mejores debido a que había partes de ellas que parecían conllevar cierta dificultad en algunos aspectos, ya que nunca habíamos trabajado ni con *unity* ni con *leap motion*.
+
+
