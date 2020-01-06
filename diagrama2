@@ -1,0 +1,30 @@
+@startuml
+class Main
+class Gps
+class Camara
+class GestureDetector
+class Menu
+class Compass
+class Gallery
+class Info
+class Home
+class ImageDetector
+
+
+Main ..> Gps
+Main ..> Camara
+Main ..> GestureDetector
+Main ..> Menu
+
+
+Gps ..> Compass
+
+Camara ..> ImageDetector
+
+Menu ..> Gallery
+Menu ..> Info
+Menu ..> Home
+
+Home ..> Main
+
+@enduml
